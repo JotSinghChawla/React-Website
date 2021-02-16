@@ -7,11 +7,14 @@ class Menu extends Component {
     constructor(props) {
         super(props);
 
-        console.log("1. constructor is called");
+        console.log("1. constructor is called")
     }
 
     componentDidMount() {
-        console.log("2. componentDidMount is called")
+        console.log("3. componentDidMount is called")
+    }
+    componentDidUpdate() {
+        console.log('4. componentDidUpdate is called')
     }
 
     // renderDish(dish) {
@@ -42,6 +45,8 @@ class Menu extends Component {
 
     render() {
 
+        console.log("2. render is called")
+
         const menu = this.props.sentDishes.map((dish) => {
             return (
                 <div key={dish.id} className="col-12 col-md-5 m-2">
@@ -54,8 +59,6 @@ class Menu extends Component {
                 </div> 
             );
         });
-
-        console.log("3. render1 is called")
 
         return (  
             <div className="container">
