@@ -1,7 +1,8 @@
 import React from 'react'
-import { Card, CardImg, CardBody, CardText, CardTitle } from 'reactstrap';
+import { Card, CardImg, CardBody, CardText, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom'
 
-const DishdetailComponent = ({ sentDish }) => {
+const DishdetailComponent = ({ sentDish, comments }) => {
 
     // This is a functional component
     const RenderDish = ({ dish }) => {                  
@@ -21,7 +22,7 @@ const DishdetailComponent = ({ sentDish }) => {
         return dish !== null ? <>
             <h3>Comments</h3>
                 <div>
-                    { dish.comments.map(element => {
+                    { dish.map(element => {
                        return ( <li key={element.id}>
                             <p> {element.comment} </p>
                             <p>  -- {element.author} | {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse( element.date )) )} </p>
@@ -33,18 +34,28 @@ const DishdetailComponent = ({ sentDish }) => {
         </> : <div></div>
     }
 
-    {/* Select the first object in Array of objects*/}
-    const inputDish = sentDish.length !== 0 ?sentDish[0] : null ;    
+    const inputDish = sentDish.length !== 0 ? sentDish[0] : null ;    
+    const inputComments = comments.length !== 0 ? comments : null;
     
     return ( 
         <div className='container'>
+            <div className='row'>
+                <Breadcrumb>
+                    <BreadcrumbItem> 
+                        <Link to='/menu'>Menu</Link>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem active> 
+                        { inputDish.name }
+                    </BreadcrumbItem>
+                </Breadcrumb>
+            </div>
             <div className='row'>
                 <div className="col-12 col-md-5 m-2" >
                     <RenderDish dish={ inputDish } />
                 </div>
                 <div className="col-12 col-md-5 m-2" >
                     <ul className='list-unstyled'>
-                        <ShowComments dish={ inputDish } />
+                        <ShowComments dish={ inputComments } />
                     </ul>
                 </div>
             </div>
