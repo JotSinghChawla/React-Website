@@ -16,9 +16,7 @@ const HeaderComponent = () => {
                 <div className="container">
                     <NavbarToggler onClick={toggleNav} />
                     <NavbarBrand className='mr-auto'>
-                        <NavLink to='/'>
                             <img src='assets/images/logo.png' alt='Ristorante Con Fusion' height='50' width='70' />
-                        </NavLink>
                     </NavbarBrand>
                     <Collapse isOpen={navOpen} navbar>
                         <Nav navbar>
