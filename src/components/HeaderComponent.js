@@ -1,13 +1,27 @@
 import React, { useState } from 'react'
-import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron } from 'reactstrap'
+import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron, Modal, ModalBody, ModalHeader, Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 
 const HeaderComponent = () => {
 
     const [navOpen, setNavOpen] = useState(false)
+    const [modalOpen, setModalOpen] = useState(false)
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [remember, setRemember] = useState(false)
 
     function toggleNav() {
         setNavOpen(!navOpen)
+    }
+
+    function toggleModal() {
+        setModalOpen(!modalOpen)
+    }
+
+    function handleLogin(event) {
+        event.preventDefault();
+        console.log('Username: ',username,'Password:',password,'Remember: ',remember)
+        toggleModal()
     }
     
     return (
@@ -41,6 +55,13 @@ const HeaderComponent = () => {
                                 </NavLink>
                             </NavItem>
                         </Nav>
+                        <Nav className='ml-auto'>
+                            <NavItem>
+                                <Button outline onClick={toggleModal}>
+                                    <span className='fa fa-sign-in fa-lg'></span> Login
+                                </Button>
+                            </NavItem>
+                        </Nav>
                     </Collapse>
                 </div>
             </Navbar>  
@@ -56,6 +77,31 @@ const HeaderComponent = () => {
                     </div>
                 </div>
             </Jumbotron>
+            <Modal isOpen={modalOpen} toggle={toggleModal} >
+                <ModalHeader toggle={toggleModal} >Login</ModalHeader>
+                <ModalBody><p>hello</p>
+                    {/* <Form onSubmit={handleLogin}>
+                        <FormGroup>
+                            <Label htmlFor='username'>Username:</Label>
+                            <Input type='text' id='username' name='username' 
+                                    onChange={ (event) => setUsername(event.target.value) } />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label htmlFor='password'>Password:</Label>
+                            <Input type='password' id='password' name='password' 
+                                    onChange={ (event) => setPassword(event.target.value) } />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label check>
+                                <Input type='checkbox' name='remember'  
+                                    onChange={ (event) => setRemember(!remember) }  />
+                                Remember me
+                            </Label>
+                        </FormGroup>
+                        <Button type='submit' value='submit' color='primary'> Login </Button>
+                    </Form> */}
+                </ModalBody>
+            </Modal>
         </>
     )
 }

@@ -6,8 +6,8 @@ const AboutComponent = ({ leaders }) => {
 
     const RenderLeader = ({ input }) => {
         return (
-            <Media key={input.id} className='mb-2'>
-                <Media left >
+            <Media key={input.id} className='mt-4'>
+                <Media left middle>
                     <Media object className='mr-5' src={input.image} alt={input.name} />
                 </Media>
                 <Media body>
