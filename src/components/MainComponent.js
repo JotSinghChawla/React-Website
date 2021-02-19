@@ -13,7 +13,6 @@ import { LEADERS } from '../shared/leaders'
 import { PROMOTIONS } from '../shared/promotions'
 
 
-
 class Main extends Component {
 
   constructor(props) {
@@ -41,6 +40,7 @@ class Main extends Component {
                 /> )
     }
 
+    // Here match is a prop which is part of Route component just like history & location
     const DishWithId = ({ match }) => {
       return (
         <DishdetailComponent sentDish={ this.state.dishes.filter( check => check.id === parseInt(match.params.dishId) )} 
