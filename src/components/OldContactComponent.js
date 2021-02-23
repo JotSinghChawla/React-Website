@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Breadcrumb, BreadcrumbItem, Button, Label, Col} from 'reactstrap'
+import { Breadcrumb, BreadcrumbItem, Button, Form, FormFeedback, FormGroup, Input, Label, Col} from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { Control, LocalForm, Errors } from 'react-redux-form'
 
@@ -71,7 +71,7 @@ class OldContactComponent extends Component {
         if (this.state.touched.telnum && !reg.test(telnum))
             errors.telnum = 'Tel. Number should contain only numbers';
 
-        reg = /^[a-zA-Z0-9_.-]{1,}@[^.][a-zA-Z]{1,}[.][a-zA-Z]{1,}$/;        
+        reg = /^[a-zA-Z0-9_.-]{1,}@[^.][a-zA-Z]{1,}[.][a-zA-Z.]{1,}$/;        
         if(this.state.touched.email && !reg.test(email))
             errors.email = 'Email address is not valid';
 
