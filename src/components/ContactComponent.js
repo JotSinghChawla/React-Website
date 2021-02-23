@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Breadcrumb, BreadcrumbItem, Button, Label, Col} from 'reactstrap'
+import { Breadcrumb, BreadcrumbItem, Button, Label, Row, Col} from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { Control, LocalForm, Errors } from 'react-redux-form'
 
@@ -12,14 +12,13 @@ class ContactComponent extends Component {
 
 
 
-    handleSubmit(event) {
-        console.log('Current State is: ' + JSON.stringify(this.state));
-        alert('Current State is: ' + JSON.stringify(this.state));
-        event.preventDefault();
+    handleSubmit(values) {
+        console.log('Current State is: ' + JSON.stringify(values));
+        alert('Current State is: ' + JSON.stringify(values));
+        // event.preventDefault();
     }
 
     render() {
-        const errors = this.validate(this.state.firstname, this.state.lastname, this.state.telnum, this.state.email);
         return (
             <div className="container">
                 <div className='row'>
@@ -67,11 +66,11 @@ class ContactComponent extends Component {
                         <h3>Send us your Feedback</h3>
                     </div>
                     <div className="col-12 col-md-9">
-                        <LocalForm onSubmit={ values => this.handleSubmit(values) }>
+                        <LocalForm onSubmit={ (values) => this.handleSubmit(values) }>
                         <Row className='form-group'>
                                 <Label htmlFor="firstname" md={2}>First Name</Label>
                                 <Col md={10}>
-                                    <Control.text modal=".firstname" id="firstname" name="firstname"
+                                    <Control.text model=".firstname" id="firstname" name="firstname"
                                         placeholder="First Name"
                                         className="form-control" />
                                 </Col>
@@ -79,7 +78,7 @@ class ContactComponent extends Component {
                             <Row className='form-group'>
                                 <Label htmlFor="lastname" md={2}>Last Name</Label>
                                 <Col md={10}>
-                                    <Control.text modal=".lastname" id="lastname" name="lastname"
+                                    <Control.text model=".lastname" id="lastname" name="lastname"
                                         placeholder="Last Name"
                                         className="form-control" />
                                 </Col>
@@ -87,7 +86,7 @@ class ContactComponent extends Component {
                             <Row className='form-group'>
                                 <Label htmlFor="telnum" md={2}>Contact Tel.</Label>
                                 <Col md={10}>
-                                    <Control.text modal=".telnum" id="telnum" name="telnum"
+                                    <Control.text model=".telnum" id="telnum" name="telnum"
                                         placeholder="Tel. Number"
                                         className="form-control" />
                                 </Col>
@@ -95,7 +94,7 @@ class ContactComponent extends Component {
                             <Row className='form-group'>
                                 <Label htmlFor="email" md={2}>Email</Label>
                                 <Col md={10}>
-                                    <Control.text modal=".email" type="email" id="email" name="email"
+                                    <Control.text model=".email" type="email" id="email" name="email"
                                         placeholder="Email"
                                         className="form-control" />
                                 </Col>
@@ -104,31 +103,29 @@ class ContactComponent extends Component {
                                 <Col md={{size: 6, offset: 2}}>
                                     <div className='form-check'>
                                         <Label check>
-                                            <Control.checkbox modal=".agree" name="agree"
+                                            <Control.checkbox model=".agree" name="agree"
                                                 className='form-check-input' /> 
                                             {' '}
                                             <strong>May we contact you?</strong>
                                         </Label>
-                                    </FormGroup>
+                                    </div>
                                 </Col>
                                 <Col md={{size: 3, offset: 1}}>
-                                    <Input type="select" name="contactType"
-                                            value={this.state.contactType}
-                                            onChange={this.handleInputChange}>
-                                        <option>Tel.</option>
-                                        <option>Email</option>
-                                    </Input>
+                                    <Control.select model=".contactType" name="contactType"
+                                        className='form-control' >
+                                            <option>Tel.</option>
+                                            <option>Email</option>
+                                    </Control.select>
                                 </Col>
                             </Row>
                             <Row className='form-group'>
                                 <Label htmlFor="message" md={2}>Your Feedback</Label>
                                 <Col md={10}>
-                                    <Input type="textarea" id="message" name="message"
+                                    <Control.textarea model=".message" id="message" name="message"
                                         rows="12"
-                                        value={this.state.message}
-                                        onChange={this.handleInputChange}></Input>
+                                        className='form-control' />
                                 </Col>
-                            </FormGroup>
+                            </Row>
                             <Row className='form-group'>
                                 <Col md={{size: 10, offset: 2}}>
                                     <Button type="submit" color="primary">
