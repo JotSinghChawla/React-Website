@@ -80,7 +80,7 @@ const HeaderComponent = () => {
             <Modal isOpen={modalOpen} toggle={toggleModal} >
                 <ModalHeader toggle={toggleModal} >Login</ModalHeader>
                 <ModalBody><p>hello</p>
-                    {/* <Form onSubmit={handleLogin}>
+                    <Form onSubmit={handleLogin}>
                         <FormGroup>
                             <Label htmlFor='username'>Username:</Label>
                             <Input type='text' id='username' name='username' 
@@ -99,7 +99,7 @@ const HeaderComponent = () => {
                             </Label>
                         </FormGroup>
                         <Button type='submit' value='submit' color='primary'> Login </Button>
-                    </Form> */}
+                    </Form>
                 </ModalBody>
             </Modal>
         </>
