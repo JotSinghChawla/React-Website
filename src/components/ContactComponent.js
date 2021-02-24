@@ -9,6 +9,8 @@ const minLength = (len) => (val) => !(val) || (val.length >= len)
 const isNumber = (val) => !isNaN(Number(val))
 const validEmail = (val) => /^[a-zA-Z0-9_.-]{1,}@[^.][a-zA-Z]{1,}[.][a-zA-Z.]{1,}$/i.test(val)
 
+
+
 class ContactComponent extends Component {
 
     constructor(props) {

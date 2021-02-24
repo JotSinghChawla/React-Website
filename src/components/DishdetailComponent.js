@@ -1,7 +1,6 @@
 import React from 'react'
 import { Card, CardImg, CardBody, CardText, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom'
-import Submit from './CommentFormComponent'
 
 const DishdetailComponent = ({ sentDish, comments }) => {
 
@@ -31,8 +30,7 @@ const DishdetailComponent = ({ sentDish, comments }) => {
                             ) 
                         }) 
                     }
-                </div> 
-                <Submit text='Submit Comment'/>   
+                </div>    
         </> : <div></div>
     }
 
