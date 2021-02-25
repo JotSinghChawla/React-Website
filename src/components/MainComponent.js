@@ -57,8 +57,8 @@ class Main extends Component {
             onClick={ (dishId) => this.onDishSelect(dishId) } />
         <DishdetailComponent 
             sentDish={ this.props.dishes.filter( (dish) => this.props.selectedDish === dish.id ) }/>     */}
-
             {/* This will Send a Selected dish in JSON format (Array of object) */}
+            
         <Footer />
       </div>
     );
