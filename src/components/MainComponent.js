@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Menu from './MenuComponent';
+import Menu from './MenuComponent'
 import DishdetailComponent from './DishdetailComponent'
 import Header from './HeaderComponent'
 import Footer from './FooterComponent'
@@ -8,6 +8,8 @@ import About from './AboutComponent'
 import Contact from './ContactComponent'
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { addComment, fetchDishes } from '../redux/ActionCreators'
+import { actions } from 'react-redux-form'
 
 const mapStateToProps = state => {
     return {
@@ -18,16 +20,28 @@ const mapStateToProps = state => {
     }    
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  addComment: ( dishId, rating, author, comment ) => dispatch(addComment( dishId, rating, author, comment )) ,
+  fetchDishes: () => { dispatch(fetchDishes()) } ,
+  resetFeedbackForm: () => { dispatch( actions.reset('feedback') ) }
+})
+
 class Main extends Component {
 
     // onDishSelect(dishId) {
     //     this.props.selectedDish === dishId ? this.setState({ selectedDish: null }) : this.setState({ selectedDish: dishId }) 
     // }
+  
+  componentDidMount() {
+    this.props.fetchDishes()      // this function is called 
+  }
 
   render() {
     // Another method to pass props in Home component
     const HomePage = () => {
-      return ( <Home dish={ this.props.dishes.filter( (check) => check.featured )[0] }
+      return ( <Home dish={ this.props.dishes.dishes.filter( (check) => check.featured )[0] }
+                     dishesLoading={ this.props.dishes.isLoading }
+                     dishesErrMess={this.props.dishes.errMess }
                      promotion={ this.props.promotions.filter( (check) => check.featured )[0] }
                      leader={ this.props.leaders.filter( (check) => check.featured )[0] } 
                 /> )
@@ -36,8 +50,11 @@ class Main extends Component {
     // Here match is a prop which is part of Route component just like history & location
     const DishWithId = ({ match }) => {
       return (
-        <DishdetailComponent sentDish={ this.props.dishes.filter( check => check.id === parseInt(match.params.dishId) )} 
-          comments={this.props.comments.filter( check => check.dishId === parseInt(match.params.dishId) )} />
+        <DishdetailComponent sentDish={ this.props.dishes.dishes.filter( check => check.id === parseInt(match.params.dishId) )}
+          isLoading={ this.props.dishes.isLoading }
+          errMess={this.props.dishes.errMess } 
+          comments={this.props.comments.filter( check => check.dishId === parseInt(match.params.dishId) )}
+          addComment={ this.props.addComment } />
       )
     }
 
@@ -49,7 +66,7 @@ class Main extends Component {
           <Route exact path='/menu' component={ () => <Menu sentDishes={this.props.dishes} /> } />
           <Route path='/menu/:dishId' component={ DishWithId } />
           <Route exact path='/aboutus' component={ () => <About leaders={this.props.leaders} /> } />
-          <Route exact path='/contactus' component={ Contact } />
+          <Route exact path='/contactus' component={ () => <Contact resetFeedbackForm={this.props.resetFeedbackForm} /> } />
           <Redirect to='/home' />
         </Switch>
 {/*         
@@ -65,4 +82,4 @@ class Main extends Component {
   }
 }
 
-export default (connect(mapStateToProps)(Main));
+export default (connect(mapStateToProps, mapDispatchToProps)(Main));

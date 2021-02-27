@@ -2,8 +2,10 @@ import React from 'react'
 import { Card, CardImg, CardBody, CardText, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom'
 import Submit from './CommentFormComponent'
+import { addComment } from '../redux/ActionCreators';
+import Loading  from './LoadingComponent'
 
-const DishdetailComponent = ({ sentDish, comments }) => {
+const DishdetailComponent = ({ sentDish, comments, addComment, isLoading, errMess }) => {
 
     // This is a functional component
     const RenderDish = ({ dish }) => {                  
@@ -19,7 +21,7 @@ const DishdetailComponent = ({ sentDish, comments }) => {
     }
 
     // This is a functional component
-    const ShowComments = ({ dish }) => {
+    const ShowComments = ({ dish, addComment, dishId }) => {
         return dish !== null ? <>
             <h3>Comments</h3>
                 <div>
@@ -32,13 +34,34 @@ const DishdetailComponent = ({ sentDish, comments }) => {
                         }) 
                     }
                 </div> 
-                <Submit text='Submit Comment'/>   
+                <Submit text='Submit Comment' dishId={dishId} addComment={addComment}/>   
         </> : <div></div>
     }
 
     const inputDish = sentDish.length !== 0 ? sentDish[0] : null ;    
     const inputComments = comments.length !== 0 ? comments : null;
-    
+
+    if(isLoading) {
+        return(
+            <div className='container'>
+                <div className='row'>
+                    <Loading />
+                </div>
+            </div>
+        )
+    }
+    else if (errMess) {
+        return (
+            <div className='container'>
+                <div className='row'>
+                    <h4>{errMess}</h4>
+                </div>
+            </div>
+        )
+    }
+
+    else 
+    {
     return ( 
         <div className='container'>
             <div className='row'>
@@ -57,13 +80,13 @@ const DishdetailComponent = ({ sentDish, comments }) => {
                 </div>
                 <div className="col-12 col-md-5 m-2" >
                     <ul className='list-unstyled'>
-                        <ShowComments dish={ inputComments } />
+                        <ShowComments dish={ inputComments } addComment={ addComment } dishId={ inputDish.id } />
                     </ul>
                 </div>
             </div>
         </div> 
     )
-
+    }
    
     
 }
