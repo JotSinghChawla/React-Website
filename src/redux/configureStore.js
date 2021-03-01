@@ -1,4 +1,4 @@
-import { createStore, combineReducers,applyMiddleware } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { createForms } from 'react-redux-form'
 import { Dishes } from './dishes'
 import { Comments } from './comments'
@@ -23,3 +23,15 @@ export const ConfigureStore = () => {
       )
      return store
 }
+
+// import {createStore} from 'redux';
+// import { Reducer, initialState } from './reducer'
+
+// export const ConfigureStore = () => {
+//     const store = createStore(
+//         Reducer, // reducer
+//         initialState, // our initialState
+//     );
+
+//     return store;
+// }
