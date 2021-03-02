@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import Submit from './CommentFormComponent'
 import { addComment } from '../redux/ActionCreators';
 import Loading  from './LoadingComponent'
+import { baseURL } from '../shared/baseURL'
 
 const DishdetailComponent = ({ sentDish, comments, addComment, isLoading, errMess }) => {
 
@@ -11,7 +12,7 @@ const DishdetailComponent = ({ sentDish, comments, addComment, isLoading, errMes
     const RenderDish = ({ dish }) => {                  
         return dish !== null ?
                 <Card>
-                    <CardImg width="100%" top src={dish.image} alt={dish.name} />
+                    <CardImg width="100%" top src={baseURL + dish.image} alt={dish.name} />
                     <CardBody>
                         <CardTitle> {dish.name} </CardTitle>
                         <CardText> {dish.description} </CardText>
