@@ -20,7 +20,7 @@ export const postComment = ( dishId, rating, author, comment ) => (dispatch) => 
         method: 'POST',
         body: JSON.stringify( newComment ),
         headers: {
-            'Content-Type': 'applicaton/json'
+            'Content-Type': 'application/json'
         },
         credentials: 'same-origin'
     })
