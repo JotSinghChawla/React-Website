@@ -75,11 +75,11 @@ class Menu extends Component {
                 </div>
             )
         }
-        else if (this.props.sentDishes.errMess) {
+        else if (this.props.sentDishes.errorMessage) {
             return (
                 <div className='container'>
                     <div className='row'>
-                        <h4>{this.props.sentDishes.errMess}</h4>
+                        <h4>{this.props.sentDishes.errorMessage}</h4>
                     </div>
                 </div>
             )

@@ -45,9 +45,9 @@ class Main extends Component {
     const HomePage = () => {
       return ( <Home dish={ this.props.dishes.dishes.filter( (check) => check.featured )[0] }
                      dishesLoading={ this.props.dishes.isLoading }
-                     dishesErrMess={this.props.dishes.errMess }
+                     dishesErrMess={this.props.dishes.errorMessage }
                      promosLoading={ this.props.promotions.isLoading }
-                     promosErrMess={this.props.promotions.errMess }
+                     promosErrMess={this.props.promotions.errorMessage }
                      promotion={ this.props.promotions.promotions.filter( (check) => check.featured )[0] }
                      leader={ this.props.leaders.filter( (check) => check.featured )[0] } 
                 /> )
@@ -58,8 +58,8 @@ class Main extends Component {
       return (
         <DishdetailComponent sentDish={ this.props.dishes.dishes.filter( check => check.id === parseInt(match.params.dishId) )}
           isLoading={ this.props.dishes.isLoading }
-          errMess={this.props.dishes.errMess } 
-          commentsErrMess={this.props.comments.errMess } 
+          errMess={this.props.dishes.errorMessage } 
+          commentsErrMess={this.props.comments.errorMessage } 
           comments={this.props.comments.comments.filter( check => check.dishId === parseInt(match.params.dishId) )}
           addComment={ this.props.addComment } />
       )
@@ -69,7 +69,7 @@ class Main extends Component {
       <div >
         <Header />
         <Switch>
-          <Route path='/home' component={HomePage} />       
+          <Route path='/home' component={ HomePage } />       
           <Route exact path='/menu' component={ () => <Menu sentDishes={this.props.dishes} /> } />
           <Route path='/menu/:dishId' component={ DishWithId } />
           <Route exact path='/aboutus' component={ () => <About leaders={this.props.leaders} /> } />
