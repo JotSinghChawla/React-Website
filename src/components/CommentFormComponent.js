@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, Label, Row, Col } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form'
-import { addComment } from '../redux/ActionCreators';
+import { postComment } from '../redux/ActionCreators';
 
 const minLength = (val) => val && (val.length >= 2)
 const maxLength = (val) => !(val) || (val.length <= 15)
@@ -24,12 +24,12 @@ export class CommentFormComponent extends Component {
     handleSubmit(values) {
         this.showModal()
         console.log(this.props.dishId)
-        this.props.addComment( this.props.dishId, values.rating, values.name, values.comment )
+        this.props.postComment( this.props.dishId, values.rating, values.name, values.comment )
         // event.preventDefault();
     }
 
     render() {
-    const { text, addComment, dishId } = this.props
+    const { text, postComment, dishId } = this.props
         return (
             <>
                 <Button outline color='secondary' onClick={ this.showModal}>

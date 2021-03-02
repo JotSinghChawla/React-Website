@@ -1,12 +1,12 @@
 import React from 'react'
 import { Card, CardImg, CardBody, CardText, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom'
-import Submit from './CommentFormComponent'
-import { addComment } from '../redux/ActionCreators';
+import SubmitComment from './CommentFormComponent'
+import { postComment } from '../redux/ActionCreators';
 import Loading  from './LoadingComponent'
 import { baseURL } from '../shared/baseURL'
 
-const DishdetailComponent = ({ sentDish, comments, addComment, isLoading, errMess }) => {
+const DishdetailComponent = ({ sentDish, comments, postComment, isLoading, errMess }) => {
 
     // This is a functional component
     const RenderDish = ({ dish }) => {                  
@@ -22,7 +22,7 @@ const DishdetailComponent = ({ sentDish, comments, addComment, isLoading, errMes
     }
 
     // This is a functional component
-    const ShowComments = ({ dish, addComment, dishId }) => {
+    const ShowComments = ({ dish, postComment, dishId }) => {
         return dish !== null ? <>
             <h3>Comments</h3>
                 <div>
@@ -35,7 +35,7 @@ const DishdetailComponent = ({ sentDish, comments, addComment, isLoading, errMes
                         }) 
                     }
                 </div> 
-                <Submit text='Submit Comment' dishId={dishId} addComment={addComment}/>   
+                <SubmitComment text='Submit Comment' dishId={dishId} postComment={postComment}/>   
         </> : <div></div>
     }
 
@@ -81,7 +81,7 @@ const DishdetailComponent = ({ sentDish, comments, addComment, isLoading, errMes
                 </div>
                 <div className="col-12 col-md-5 m-2" >
                     <ul className='list-unstyled'>
-                        <ShowComments dish={ inputComments } addComment={ addComment } dishId={ inputDish.id } />
+                        <ShowComments dish={ inputComments } postComment={ postComment } dishId={ inputDish.id } />
                     </ul>
                 </div>
             </div>
