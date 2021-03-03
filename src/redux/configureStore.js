@@ -7,6 +7,7 @@ import { Promotions } from './promotions'
 import thunk from 'redux-thunk'
 import logger from "redux-logger"
 import { InitialFeedback } from './forms'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 export const ConfigureStore = () => {
      const store = createStore( 
@@ -19,7 +20,7 @@ export const ConfigureStore = () => {
                     feedback: InitialFeedback
                })
           }), 
-          applyMiddleware(thunk, logger)
+          composeWithDevTools(applyMiddleware(thunk, logger))
       )
      return store
 }
