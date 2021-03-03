@@ -3,9 +3,8 @@ import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from 'reac
 import Loading from './LoadingComponent'
 import { baseURL } from '../shared/baseURL'
 import { FadeTransform } from 'react-animation-components'
-import { leadersLoading } from '../redux/ActionCreators'
 
-const HomeComponent = ({ dish, promotion, leader, dishesErrMess, dishesLoading, promosLoading, promosErrMess, leadersLoading, leaderErrMess }) => {
+const HomeComponent = ({ dish, promotion, leader, dishesErrMess, dishesLoading, promosLoading, promosErrMess, leadersLoading, leadersErrMess }) => {
 
     const RenderCard = ({ item, isLoading, errMess }) => {
         if (isLoading) {
@@ -45,7 +44,7 @@ const HomeComponent = ({ dish, promotion, leader, dishesErrMess, dishesLoading, 
                     <RenderCard item = {promotion} isLoading={ promosLoading } errMess={ promosErrMess }  /> 
                 </div>
                 <div className='col-12 col-md m-2'>
-                    <RenderCard item = {leader} isLoading={ leadersLoading } errMess={ leaderErrMess} /> 
+                    <RenderCard item = {leader} isLoading={ leadersLoading } errMess={ leadersErrMess} /> 
                 </div>
             </div>
         </div>

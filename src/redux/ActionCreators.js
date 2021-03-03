@@ -186,3 +186,46 @@ export const fetchLeaders = () => (dispatch) => {
         .then( leaders => dispatch( addLeaders(leaders) ) )
         .catch( error => dispatch( leadersFailed(error) ) )
 }
+
+export const postFeedback = ( firstname, lastname, email, telnum, 
+                            agree, contactType ,message) => () => {
+                const newFeedback = {
+                    firstname: firstname,
+                    lastname: lastname,
+                    email: email,
+                    telnum: telnum,
+                    agree: agree,
+                    contactType: contactType,
+                    message: message
+                }
+
+        return fetch( baseURL + 'feedback' , {
+            method: 'POST',
+            body: JSON.stringify( newFeedback ),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        })
+        .then( response => {
+            if(response.ok)
+                return response
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText )
+                error.response = response
+                throw error
+            }
+        }, error => {
+            var errMess = new Error( error.message )
+            throw errMess
+        })
+        .then( response => response.json() )
+        .then( response => { 
+            console.log('Current State is: ' , response)
+            alert('Thank you for your feedback!\n' + JSON.stringify(response) ) 
+        })
+        .catch( error => {
+            console.log( 'POST FEEDBACK: ', error.message )
+            alert( 'Your Feedback is not posted\nError: ',error.message )
+        })
+}
