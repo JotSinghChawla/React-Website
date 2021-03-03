@@ -5,19 +5,23 @@ import SubmitComment from './CommentFormComponent'
 import { postComment } from '../redux/ActionCreators';
 import Loading  from './LoadingComponent'
 import { baseURL } from '../shared/baseURL'
+import { FadeTransform, Fade, Stagger } from 'react-animation-components'
 
 const DishdetailComponent = ({ sentDish, comments, postComment, isLoading, errMess }) => {
 
     // This is a functional component
     const RenderDish = ({ dish }) => {                  
         return dish !== null ?
-                <Card>
-                    <CardImg width="100%" top src={baseURL + dish.image} alt={dish.name} />
-                    <CardBody>
-                        <CardTitle> {dish.name} </CardTitle>
-                        <CardText> {dish.description} </CardText>
-                    </CardBody>
-                </Card>
+                <FadeTransform in transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%) '}} >
+                    <Card>
+                        <CardImg width="100%" top src={baseURL + dish.image} alt={dish.name} />
+                        <CardBody>
+                            <CardTitle> {dish.name} </CardTitle>
+                            <CardText> {dish.description} </CardText>
+                        </CardBody>
+                    </Card>
+                </FadeTransform>
             : <div></div> 
     }
 
@@ -25,16 +29,21 @@ const DishdetailComponent = ({ sentDish, comments, postComment, isLoading, errMe
     const ShowComments = ({ dish, postComment, dishId }) => {
         return dish !== null ? <>
             <h3>Comments</h3>
-                <div>
-                    { dish.map(element => {
-                       return ( <li key={element.id}>
-                            <p> {element.comment} </p>
-                            <p>  -- {element.author} | {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse( element.date )) )} </p>
-                        </li>
-                            ) 
-                        }) 
-                    }
-                </div> 
+                <ul className='list-unstyled'>
+                    <Stagger in>
+                        { dish.map(element => {
+                        return ( 
+                            <Fade in>
+                                <li key={element.id}>
+                                    <p> {element.comment} </p>
+                                    <p>  -- {element.author} | {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse( element.date )) )} </p>
+                                </li>
+                            </Fade>
+                                ) 
+                            }) 
+                        }
+                    </Stagger>
+                </ul> 
                 <SubmitComment text='Submit Comment' dishId={dishId} postComment={postComment}/>   
         </> : <div></div>
     }
