@@ -79,6 +79,12 @@ class Main extends Component {
           <CSSTransition key={this.props.location.key} classNames='page' timeout={300}>   
              {/*  Here it is ClassNameS <-- in Csstransition component to apply to all children */}
             <Switch location={this.props.location}>
+              {/* <Route path={ process.env.PUBLIC_URL + '/home'} component={ HomePage } />       
+              <Route exact path={ process.env.PUBLIC_URL + '/aboutus'} component={ () => <About leaders={this.props.leaders.leaders} /> } />
+              <Route exact path={ process.env.PUBLIC_URL + '/menu'} component={ () => <Menu sentDishes={this.props.dishes} /> } />
+              <Route path={ process.env.PUBLIC_URL + '/menu/:dishId'} component={ DishWithId } />
+              <Route exact path={ process.env.PUBLIC_URL + '/contactus'} component={ () => <Contact postFeedback={this.props.postFeedback} resetFeedbackForm={this.props.resetFeedbackForm} /> } />
+              <Redirect to={ process.env.PUBLIC_URL + '/home'} /> */}
               <Route path='/home' component={ HomePage } />       
               <Route exact path='/aboutus' component={ () => <About leaders={this.props.leaders.leaders} /> } />
               <Route exact path='/menu' component={ () => <Menu sentDishes={this.props.dishes} /> } />
