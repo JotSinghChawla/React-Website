@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron, Modal, ModalBody, ModalHeader, Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
+import { baseURL } from '../shared/baseURL'
 
 const HeaderComponent = () => {
 
@@ -30,7 +31,7 @@ const HeaderComponent = () => {
                 <div className="container">
                     <NavbarToggler onClick={toggleNav} />
                     <NavbarBrand className='mr-auto'>
-                            <img src='assets/images/logo.png' alt='Ristorante Con Fusion' height='50' width='70' />
+                            <img src={ baseURL+'images/logo.png'} alt='Ristorante Con Fusion' height='50' width='70' />
                     </NavbarBrand>
                     <Collapse isOpen={navOpen} navbar>
                         <Nav navbar>

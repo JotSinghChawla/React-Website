@@ -55,7 +55,7 @@ class Menu extends Component {
             return (
                 <div key={dish.id} className="col-12 col-md-5 m-2">
                     <Card>
-                        <Link to={ `/react_website/menu/${dish.id}` } >
+                        <Link to={ `/menu/${dish.id}` } >
                             <CardImg width="100%" src={baseURL + dish.image} alt={dish.name} />
                             <CardImgOverlay>
                                 <CardTitle> {dish.name} </CardTitle>

@@ -76,7 +76,7 @@ class Main extends Component {
       <div >
        <Header />
         <TransitionGroup>
-          <CSSTransition key={this.props.location.key} classNames='page' timeout={300}>   
+          <CSSTransition key={this.props.location.pathname} classNames='page' timeout={300}>   
              {/*  Here it is ClassNameS <-- in Csstransition component to apply to all children */}
             <Switch location={this.props.location}>
               {/* <Route path={ process.env.PUBLIC_URL + '/home'} component={ HomePage } />       
