@@ -302,7 +302,7 @@ export const postFavorite = (dishId) => (dispatch) => {
     .catch( error => dispatch( favoritesFailed( error.message ) ) );
 };
 
-export const deleteFavorites = dishId => dispatch => {
+export const deleteFavorite = dishId => dispatch => {
     
     const bearer = 'Bearer ' + localStorage.getItem('token');
     
