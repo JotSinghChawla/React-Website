@@ -1,3 +1,4 @@
+                                    // These are the Reducer functions
 // import { PROMOTIONS } from '../shared/promotions'
 import * as ActionTypes from './ActionTypes'
 
