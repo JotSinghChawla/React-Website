@@ -229,3 +229,17 @@ export const postFeedback = ( firstname, lastname, email, telnum,
             alert( 'Your Feedback is not posted\nError: ',error.message )
         })
 }
+
+export const favoritesLoading = () => ({
+    type: ActionTypes.FAVORITES_LOADING
+});
+
+export const favoritesFailed = errmess => ({
+    type: ActionTypes.FAVORITES_FAILED,
+    payload: errmess
+});
+
+export const addFavorites = favorite => ({
+    type: ActionTypes.ADD_FAVORITES,
+    payload: favorite
+});

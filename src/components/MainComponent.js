@@ -56,8 +56,7 @@ class Main extends Component {
                      leader={ this.props.leaders.leaders.filter( (check) => check.featured )[0] } 
                      leadersLoading={ this.props.leaders.isLoading }
                      leadersErrMess={ this.props.leaders.errorMessage }
-                /> )
-                
+                /> )        
     }
 
     // Here match is a prop which is part of Route component just like history & location
