@@ -243,3 +243,89 @@ export const addFavorites = favorite => ({
     type: ActionTypes.ADD_FAVORITES,
     payload: favorite
 });
+
+export const fetchFavorites = () => dispatch => {
+    dispatch( favoritesLoading(true) );
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch( baseURL  + 'favorites', {
+        method: "GET",
+        headers: {
+            'Authorization': bearer
+        },
+        credentials: "same-origin"
+    })
+    .then( response => {
+        if( response.ok ) 
+            return response;
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText );
+            error.response = response;
+            throw error; 
+        }
+    }, error => {
+        var errmess = new Error( error.message );
+        throw errmess;
+    }) 
+    .then( response => response.json() )
+    .then( favorites => dispatch( addFavorites(favorites) ) )                 // Adding Favorites to Redux Store
+    .catch( error => dispatch( favoritesFailed( error.message ) ) );
+};
+
+export const postFavorite = (dishId) => (dispatch) => {
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseURL + 'favorites/' + dishId, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': bearer
+        },
+        credentials: "same-origin"
+    })
+    .then( response => {
+        if( response.ok )
+            return response;
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    }, error => { throw error })
+    .then( response => response.json() )
+    .then( favorites => {
+        console.log('Dish added to Favorites: ', favorites);
+        dispatch( addFavorites( favorites ) );                          // Adding Favorites to Redux Store
+    })
+    .catch( error => dispatch( favoritesFailed( error.message ) ) );
+};
+
+export const deleteFavorites = dishId => dispatch => {
+    
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+    
+    return fetch( baseURL  + 'favorites', {
+        method: "DELETE",
+        headers: {
+            'Authorization': bearer
+        },
+        credentials: "same-origin"
+    })
+    .then( response => {
+        if( response.ok )
+            return response;
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            error.response = response;
+            throw error;       
+        }
+    }, errmess => { throw errmess })
+    .then( response => response.json() )
+    .then( favorites => {
+        console.log('Favorites Deleted: ', favorites);
+        dispatch( addFavorites(favorites) );                          // Adding Favorites to Redux Store
+    })
+    .catch( error => dispatch( favoritesFailed( error.message ) ) ); 
+};
