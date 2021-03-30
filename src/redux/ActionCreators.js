@@ -329,3 +329,81 @@ export const deleteFavorites = dishId => dispatch => {
     })
     .catch( error => dispatch( favoritesFailed( error.message ) ) ); 
 };
+
+export const requestLogin = creds => ({
+    type: ActionTypes.LOGOUT_REQUEST,
+    payload: creds
+});
+
+export const receiveLogin = response => ({
+    type: ActionTypes.LOGIN_SUCCESS,
+    token: response.token                   // try payload: response.token
+});
+
+export const loginError = message => ({
+    type: ActionTypes.LOGIN_FAILURE,
+    token: message
+});
+
+export const loginUser = creds => dispatch => {    
+    // We dispatch requestLogin to kickoff the call to the API
+    dispatch( requestLogin(creds) );
+
+    return fetch( baseURL + 'users/login', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( creds )                   // These creds are passed in loginUser() function 
+    })
+    .then( response => {
+        if( response.ok )
+            return response;
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText );
+            error.response = response;
+            throw error;
+        }
+    }, error => { throw error; })
+    // error => {
+    //     var errmess = new Error( error.message );
+    //     throw errmess;
+    // }) 
+    .then( response => response.json() )
+    .then( response => {
+        if( response.success ) {
+            // If login was successful, set the token in local storage
+            localStorage.setItem('jwttoken', response.token );
+            localStorage.setItem('usercreds', JSON.stringify( creds ));         // check session storage
+            
+            // Dispatch the success action
+            dispatch( receiveLogin( response ) );
+            
+        }   
+        else {
+            var error = new Error('Error ' + response.status);
+            error.response = response;
+            throw error;
+        }
+    })
+    .catch( error => dispatch( loginError( error.message ) ) );
+};
+
+export const requestLogout = () => ({
+    type: ActionTypes.LOGOUT_REQUEST
+});
+
+export const receiveLogout = () => ({
+    type: ActionTypes.LOGOUT_SUCCESS
+});
+
+// Logs the user out
+export const logoutUser = () => (dispatch) => {
+    dispatch( requestLogout() );
+
+    localStorage.removeItem('jwttoken');
+    localStorage.removeItem('usercreds');
+
+    dispatch( favoritesFailed("Error 401: Unauthorized") );
+    dispatch( receiveLogout() );
+};
