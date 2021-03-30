@@ -1,13 +1,12 @@
 import React from 'react'
-import { Card, CardImg, CardBody, CardText, CardTitle, Breadcrumb, BreadcrumbItem, CardImgOverlay } from 'reactstrap';
+import { Card, CardImg, CardBody, CardText, CardTitle, Breadcrumb, BreadcrumbItem, CardImgOverlay, Button } from 'reactstrap';
 import { Link } from 'react-router-dom'
 import SubmitComment from './CommentFormComponent'
 import Loading  from './LoadingComponent'
 import { baseURL } from '../shared/baseURL'
 import { FadeTransform, Fade, Stagger } from 'react-animation-components'
-import { Button } from 'bootstrap';
 
-const DishdetailComponent = ({ sentDish, comments, postComment, isLoading, errMess, favorite, postFavorite }) => {
+const DishdetailComponent = ({ sentDish, comments, postComment, isLoading, errMess, favorites, postFavorites }) => {
 
     // This is a functional component
     const RenderDish = ({ dish, fav, postFav }) => {                  
@@ -18,9 +17,8 @@ const DishdetailComponent = ({ sentDish, comments, postComment, isLoading, errMe
                         <CardImg width="100%" top src={baseURL + dish.image} alt={dish.name} />
                         <CardImgOverlay>
                             <Button color="info" onClick={() => fav ? console.log('Already favorite') : postFav(dish._id)}>
-                                { favorite ? <span className='fa fa-heart'></span> : <span className='fa fa-heart-o'></span> }
+                                { fav ? <span className='fa fa-heart'></span> : <span className='fa fa-heart-o'></span> }
                             </Button>
-                            {/* { console.log(favorite, postFavorite) } */}
                         </CardImgOverlay>
                         <CardBody>
                             <CardTitle> {dish.name} </CardTitle>
@@ -97,7 +95,7 @@ const DishdetailComponent = ({ sentDish, comments, postComment, isLoading, errMe
             </div>
             <div className='row'>
                 <div className="col-12 col-md-5 m-2" >
-                    <RenderDish dish={ inputDish } fav={ favorite} postFav={ postFavorite } />
+                    <RenderDish dish={ inputDish } fav={ favorites } postFav={ postFavorites } />
                 </div>
                 <div className="col-12 col-md-5 m-2" >
                     {/* <ul className='list-unstyled'> */}

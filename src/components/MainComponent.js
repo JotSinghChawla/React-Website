@@ -9,7 +9,7 @@ import Contact from './ContactComponent'
 import Favorites from './FavoriteComponent'
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { postComment, fetchComments, fetchDishes, fetchPromos, fetchLeaders, postFeedback, fetchFavorites, postFavorite, deleteFavorite } from '../redux/ActionCreators'
+import { postComment, fetchComments, fetchDishes, fetchPromos, fetchLeaders, postFeedback, fetchFavorites, postFavorites, deleteFavorites } from '../redux/ActionCreators'
 import { actions } from 'react-redux-form'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
@@ -32,8 +32,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchPromos: () => { dispatch( fetchPromos() ) } ,
   fetchLeaders: () => { dispatch( fetchLeaders() ) } ,
   fetchFavorites: () => { dispatch( fetchFavorites() ) } ,
-  postFavorite: dishId => dispatch( postFavorite(dishId) ) ,
-  deleteFavorite: dishId => dispatch(deleteFavorite(dishId) )
+  postFavorites: dishId => dispatch( postFavorites(dishId) ) ,
+  deleteFavorites: dishId => dispatch(deleteFavorites(dishId) )
 })
 
 class Main extends Component {
@@ -73,7 +73,9 @@ class Main extends Component {
           errMess={this.props.dishes.errorMessage } 
           commentsErrMess={this.props.comments.errorMessage } 
           comments={this.props.comments.comments.filter( check => check.dishId === parseInt(match.params.dishId) )}
-          postComment={ this.props.postComment } />
+          postComment={ this.props.postComment } 
+          favorites={this.props.favorites.favorites } 
+          postFavorites={this.props.favorites.postFavorites} />
       )
     }
 
