@@ -5,6 +5,7 @@ import { Comments } from './comments'
 import { Leaders } from './leaders'
 import { Promotions } from './promotions'
 import { Favorites } from './favorites'
+import { Auth } from './auth'
 import thunk from 'redux-thunk'
 import logger from "redux-logger"
 import { InitialFeedback } from './forms'
@@ -18,13 +19,14 @@ export const ConfigureStore = () => {
                promotions: Promotions, 
                leaders: Leaders, 
                favorites: Favorites,
+               auth: Auth,
                ...createForms({
                     feedback: InitialFeedback
                })
           }), 
           composeWithDevTools(applyMiddleware(thunk, logger))
       )
-     return store
+     return store;
 }
 
 
