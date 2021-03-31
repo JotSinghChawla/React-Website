@@ -274,7 +274,7 @@ export const fetchFavorites = () => dispatch => {
 };
 
 export const postFavorites = (dishId) => (dispatch) => {
-
+    
     const bearer = 'Bearer ' + localStorage.getItem('token');
 
     return fetch(baseURL + 'favorites/' + dishId, {
