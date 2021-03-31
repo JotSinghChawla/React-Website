@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron, Modal, ModalBody, ModalHeader, Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 import { baseURL } from '../shared/baseURL'
+import { loginUser } from '../redux/ActionCreators'
 
-const HeaderComponent = () => {
+const HeaderComponent = ({ loginUser, logoutUser, auth }) => {
 
     const [navOpen, setNavOpen] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
@@ -21,8 +22,12 @@ const HeaderComponent = () => {
 
     function handleLogin(event) {
         event.preventDefault();
-        console.log('Username: ',username,'Password:',password,'Remember: ',remember)
+        loginUser({ username: username, password: password })
         toggleModal()
+    }
+
+    function handleLogout() {
+       logoutUser(); 
     }
     
     return (
@@ -63,9 +68,21 @@ const HeaderComponent = () => {
                         </Nav>
                         <Nav className='ml-auto'>
                             <NavItem>
-                                <Button outline color='warning' onClick={toggleModal}>
-                                    <span className='fa fa-sign-in fa-lg'></span> Login
-                                </Button>
+                                { !auth.isAuthenticated ? 
+                                    <Button outline color='warning' onClick={toggleModal}>
+                                        <span className='fa fa-sign-in fa-lg'></span> Login
+                                        { auth.isFetching ? <span className="fa fa-spinner fa-pulse fa-fw"></span> : null }
+                                    </Button>
+                                    :
+                                    <div>
+                                        <p className='navbar-text mr-3'> Hello { auth.user.username } </p>
+                                        <Button outline color='primary' onClick={ handleLogout }>
+                                            <span className='fa fa-sign-out fa-lg'></span> Logout
+                                            { auth.isFetching ? <span className="fa fa-spinner fa-pulse fa-fw"></span> : null }
+                                        </Button>
+                                    </div>
+                            }
+
                             </NavItem>
                         </Nav>
                     </Collapse>
@@ -85,7 +102,8 @@ const HeaderComponent = () => {
             </Jumbotron>
             <Modal isOpen={modalOpen} toggle={toggleModal} >
                 <ModalHeader toggle={toggleModal} >Login</ModalHeader>
-                <ModalBody><p>hello</p>
+                <ModalBody>
+                    <p>hello</p>
                     <Form onSubmit={handleLogin}>
                         <FormGroup>
                             <Label htmlFor='username'>Username:</Label>
