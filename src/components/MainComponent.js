@@ -9,8 +9,8 @@ import Contact from './ContactComponent'
 import Favorites from './FavoriteComponent'
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { postComment, fetchComments, fetchDishes, fetchPromos, fetchLeaders, postFeedback, fetchFavorites, postFavorites, deleteFavorites } from '../redux/ActionCreators'
-import { actions } from 'react-redux-form'
+import { postComment, fetchComments, fetchDishes, fetchPromos, fetchLeaders, postFeedback, fetchFavorites, postFavorites, deleteFavorites, loginUser, logoutUser } from '../redux/ActionCreators'
+import { actions } from 'react-redux-form'              // For Reseting the Feedback Form 
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 const mapStateToProps = state => {
@@ -19,7 +19,8 @@ const mapStateToProps = state => {
       comments: state.comments,
       promotions: state.promotions,
       leaders: state.leaders,
-      favorites: state.favorites
+      favorites: state.favorites,
+      auth: state.auth
     }    
 }
 
@@ -32,8 +33,10 @@ const mapDispatchToProps = (dispatch) => ({
   fetchPromos: () => { dispatch( fetchPromos() ) } ,
   fetchLeaders: () => { dispatch( fetchLeaders() ) } ,
   fetchFavorites: () => { dispatch( fetchFavorites() ) } ,
-  postFavorites: dishId => dispatch( postFavorites(dishId) ) ,
-  deleteFavorites: dishId => dispatch(deleteFavorites(dishId) )
+  postFavorites: dishId => { dispatch( postFavorites(dishId) ) } ,
+  deleteFavorites: dishId => dispatch(deleteFavorites(dishId) ),
+  loginUser: creds => dispatch( loginUser(creds) ),
+  logoutUser: () => dispatch( logoutUser() )
 })
 
 class Main extends Component {
@@ -68,20 +71,46 @@ class Main extends Component {
     // Here match is a prop which is part of Route component just like history & location
     const DishWithId = ({ match }) => {
       return (
-        <DishdetailComponent sentDish={ this.props.dishes.dishes.filter( check => check.id === parseInt(match.params.dishId) )}
-          isLoading={ this.props.dishes.isLoading }
-          errMess={this.props.dishes.errorMessage } 
-          commentsErrMess={this.props.comments.errorMessage } 
-          comments={this.props.comments.comments.filter( check => check.dishId === parseInt(match.params.dishId) )}
-          postComment={ this.props.postComment } 
-          favorites={this.props.favorites.favorites } 
-          postFavorites={this.props.favorites.postFavorites} />
+         this.props.auth.isAuthenticated  ? 
+            <DishdetailComponent sentDish={ this.props.dishes.dishes.filter( check => check.id === parseInt(match.params.dishId) )}
+              isLoading={ this.props.dishes.isLoading }
+              errMess={this.props.dishes.errorMessage } 
+              commentsErrMess={this.props.comments.errorMessage } 
+              comments={this.props.comments.comments.filter( check => check.dishId === parseInt(match.params.dishId) )}
+              postComment={ this.props.postComment } 
+              favorites={ this.props.favorites.favorites.dishes.some((dish) => dish._id === match.params.dishId)}
+              postFavorites={this.props.postFavorite}
+            />
+          :
+            <DishdetailComponent sentDish={ this.props.dishes.dishes.filter( check => check.id === parseInt(match.params.dishId) )}
+              isLoading={ this.props.dishes.isLoading }
+              errMess={this.props.dishes.errorMessage } 
+              commentsErrMess={this.props.comments.errorMessage } 
+              comments={this.props.comments.comments.filter( check => check.dishId === parseInt(match.params.dishId) )}
+              postComment={ this.props.postComment } 
+              favorites={ false } 
+              postFavorites={this.props.postFavorites} 
+            /> 
       )
     }
 
+    const PrivateRoute = ({ component: Component, ...rest }) => (         // IDK how it works ??
+      <Route {...rest} render={ (props) => (
+        this.props.auth.isAuthenticated ? 
+          <Component {...props} />
+          : 
+          <Redirect to={{
+            pathname: '/home',
+            state: { from: props.location }           // state is used for Referring
+          }} />
+      )} />
+    )
+
     return (
       <div >
-       <Header />
+       <Header loginUser={ this.props.loginUser }
+               logoutUser={ this.props.logoutUser } 
+               auth={ this.props.auth } />
         <TransitionGroup>
           <CSSTransition key={this.props.location.pathname} classNames='page' timeout={300}>   
              {/*  Here it is ClassNameS <-- in Csstransition component to apply to all children */}
@@ -97,7 +126,7 @@ class Main extends Component {
               <Route exact path='/menu' component={ () => <Menu sentDishes={this.props.dishes} /> } />
               <Route path='/menu/:dishId' component={ DishWithId } />
               <Route exact path='/contactus' component={ () => <Contact postFeedback={this.props.postFeedback} resetFeedbackForm={this.props.resetFeedbackForm} /> } />
-              <Route exact path='/favorites' component={ () => <Favorites fav={this.props.favorites} deleteFav={this.props.deleteFavorite} /> } />
+              <PrivateRoute exact path='/favorites' component={ () => <Favorites fav={this.props.favorites} deleteFav={this.props.deleteFavorites} /> } />
               <Redirect to='/home' />
             </Switch>
           </CSSTransition>
