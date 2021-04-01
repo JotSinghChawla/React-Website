@@ -40,9 +40,9 @@ const FavoriteComponent = ({ fav, deleteFav }) => {
             </div>
         )
     }
-    else if( fav.favorites[0] ) {
-
-        const getFavorites = fav.favorites[0].dishes.map( dish => {                     // Must add fav.favorites[0]
+    else if( fav.favorites ) {
+        console.log('yes', fav);
+        const getFavorites = fav.favorites.dishes.map( dish => {                     // Must add fav.favorites[0]
             return (
                 <div key={ dish._id } className='col-12 mt-5'>
                     <RenderMenuItem dish={dish} deleteFavourite={ deleteFav } />
@@ -77,6 +77,7 @@ const FavoriteComponent = ({ fav, deleteFav }) => {
             <div className="container">
                 <div className="row">
                     <h4>You have no favorites</h4>
+                    { console.log( fav )}
                 </div>
             </div>
         )

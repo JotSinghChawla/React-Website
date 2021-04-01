@@ -6,24 +6,26 @@ export const addComment = ( comment ) => ({
         payload: comment
 })
 
-export const postComment = ( dishId, rating, author, comment ) => (dispatch) => {
+export const postComment = ( dishId, rating, comment ) => (dispatch) => {
     const newComment = {
-        dishId: dishId,
-        rating: rating, 
-        author: author,
-        comment: comment
+        comment: comment,
+        rating: rating
     }
-    newComment.date = new Date().toISOString()
+    console.log(newComment, dishId, rating, comment)
 
-    return fetch( baseURL + 'comments', {
+    const bearer = 'Bearer ' + localStorage.getItem('jwttoken');
+
+    return fetch( baseURL + 'dishes/'+ dishId + '/comments', {
         method: 'POST',
         body: JSON.stringify( newComment ),
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': bearer
         },
         credentials: 'same-origin'
     })
     .then( response => {
+        console.log( response );
         if( response.ok ) {
             return response
         }
@@ -332,8 +334,7 @@ export const deleteFavorites = dishId => dispatch => {
 
 export const requestLogin = creds => ({
     type: ActionTypes.LOGIN_REQUEST,
-    creds                                       // creds will be transfer to the Reducer function in auth.js which will
-                                                // further store it using actions.creds 
+    payload: creds.username                       
 });
 
 export const receiveLogin = response => ({
@@ -343,7 +344,8 @@ export const receiveLogin = response => ({
 
 export const loginError = message => ({
     type: ActionTypes.LOGIN_FAILURE,
-    payload: message
+    message                                    // creds will be transfer to the Reducer function in auth.js which will
+                                               // further store it using actions.message 
 });
 
 export const loginUser = creds => dispatch => {    
@@ -379,6 +381,7 @@ export const loginUser = creds => dispatch => {
             
             // Dispatch the success action
             dispatch( receiveLogin( response ) );
+            dispatch( fetchFavorites() );
             
         }   
         else {
