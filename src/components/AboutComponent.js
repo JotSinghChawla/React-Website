@@ -9,7 +9,7 @@ const AboutComponent = ({ leaders }) => {
     const RenderLeader = ({ input }) => {
         return (
             <Fade in>
-                <Media key={input.id} className='mt-4'>
+                <Media key={input._id} className='mt-4'>
                     <Media left middle>
                         <Media object className='mr-5' src={baseURL + input.image} alt={input.name} />
                     </Media>
