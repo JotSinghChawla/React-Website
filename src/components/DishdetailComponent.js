@@ -16,8 +16,8 @@ const DishdetailComponent = ({ sentDish, comments, postComment, isLoading, errMe
                     <Card>
                         <CardImg width="100%" top src={baseURL + dish.image} alt={dish.name} />
                         <CardImgOverlay>
-                            <Button color="info" onClick={() => fav ? console.log('Already favorite') : postFav(dish._id)}>
-                                { fav ? <span className='fa fa-heart'></span> : <span className='fa fa-heart-o'></span> }
+                            <Button outline color="info" onClick={() => fav.length !== 0 ? console.log('Already favorite') : postFav(dish._id)}>
+                                { fav.length !== 0 ? <span className='fa fa-heart'></span> : <span className='fa fa-heart-o'></span> }
                             </Button>
                         </CardImgOverlay>
                         <CardBody>
@@ -37,11 +37,11 @@ const DishdetailComponent = ({ sentDish, comments, postComment, isLoading, errMe
                     <Stagger in>
                         { comments.map(element => {
                         return ( 
-                            <Fade in key={element.id}>
+                            <Fade in key={element._id}>
                                 <li>
                                     <p> {element.comment} </p>
                                     <p> {element.rating} stars</p>
-                                    <p>  -- {element.author} | {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse( element.date )) )} </p>
+                                    <p>  -- {element.author.firstname + ' ' + element.author.lastname} | {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse( element.updatedAt )) )} </p>
                                 </li>
                             </Fade>
                                 ) 
@@ -50,11 +50,17 @@ const DishdetailComponent = ({ sentDish, comments, postComment, isLoading, errMe
                     </Stagger>
                 </ul> 
                 <SubmitComment text='Submit Comment' dishId={dishId} postComment={postComment}/>   
-        </> : <div></div>
+        </> : 
+        <div> 
+            <h3> No Comments Yet! </h3> <br/>
+            <SubmitComment text='Submit Comment' dishId={dishId} postComment={postComment}/>   
+        </div>
     }
 
-    const inputDish = sentDish.length !== 0 ? sentDish[0] : null ;    
-    const inputComments = comments.length !== 0 ? comments : null;
+    const inputDish = sentDish.length !== 0 ? sentDish[0] : null ;  
+      
+    // const inputComments = comments.length !== 0 ? comments : null;
+    const inputComments = inputDish.comments;
 
     if(isLoading) {
         return(
