@@ -33,7 +33,7 @@ const HeaderComponent = ({ loginUser, logoutUser, auth }) => {
     return (
         <>
             <Navbar dark expand='md'>
-                <div className="container">
+                <div className="container-fluid">
                     <NavbarToggler onClick={toggleNav} />
                     <NavbarBrand className='mr-auto'>
                             <img src={ baseURL+'images/logo.png'} alt='Ristorante Con Fusion' height='50' width='70' />
@@ -75,8 +75,8 @@ const HeaderComponent = ({ loginUser, logoutUser, auth }) => {
                                     </Button>
                                     :
                                     <div>
-                                        <p className='navbar-text mr-3'> Hello { auth.user.username } </p>
-                                        <Button outline color='primary' onClick={ handleLogout }>
+                                        <p className='navbar-text mr-3 '> Hello { auth.user } </p>
+                                        <Button outline color='warning' onClick={ handleLogout }>
                                             <span className='fa fa-sign-out fa-lg'></span> Logout
                                             { auth.isFetching ? <span className="fa fa-spinner fa-pulse fa-fw"></span> : null }
                                         </Button>
