@@ -247,7 +247,7 @@ export const addFavorites = favorite => ({
 export const fetchFavorites = () => dispatch => {
     dispatch( favoritesLoading(true) );
 
-    const bearer = 'Bearer ' + localStorage.getItem('token');
+    const bearer = 'Bearer ' + localStorage.getItem('jwttoken');
 
     return fetch( baseURL  + 'favorites', {
         method: "GET",
@@ -275,7 +275,7 @@ export const fetchFavorites = () => dispatch => {
 
 export const postFavorites = (dishId) => (dispatch) => {
     
-    const bearer = 'Bearer ' + localStorage.getItem('token');
+    const bearer = 'Bearer ' + localStorage.getItem('jwttoken');
 
     return fetch(baseURL + 'favorites/' + dishId, {
         method: "POST",
@@ -304,9 +304,9 @@ export const postFavorites = (dishId) => (dispatch) => {
 
 export const deleteFavorites = dishId => dispatch => {
     
-    const bearer = 'Bearer ' + localStorage.getItem('token');
+    const bearer = 'Bearer ' + localStorage.getItem('jwttoken');
     
-    return fetch( baseURL  + 'favorites', {
+    return fetch( baseURL  + 'favorites/' + dishId, {
         method: "DELETE",
         headers: {
             'Authorization': bearer
@@ -331,8 +331,9 @@ export const deleteFavorites = dishId => dispatch => {
 };
 
 export const requestLogin = creds => ({
-    type: ActionTypes.LOGOUT_REQUEST,
-    payload: creds
+    type: ActionTypes.LOGIN_REQUEST,
+    creds                                       // creds will be transfer to the Reducer function in auth.js which will
+                                                // further store it using actions.creds 
 });
 
 export const receiveLogin = response => ({
@@ -342,7 +343,7 @@ export const receiveLogin = response => ({
 
 export const loginError = message => ({
     type: ActionTypes.LOGIN_FAILURE,
-    token: message
+    payload: message
 });
 
 export const loginUser = creds => dispatch => {    
@@ -374,7 +375,7 @@ export const loginUser = creds => dispatch => {
         if( response.success ) {
             // If login was successful, set the token in local storage
             localStorage.setItem('jwttoken', response.token );
-            localStorage.setItem('usercreds', JSON.stringify( creds ));         // check session storage
+            localStorage.setItem('usercreds', JSON.stringify( creds.username ));         // check session storage
             
             // Dispatch the success action
             dispatch( receiveLogin( response ) );

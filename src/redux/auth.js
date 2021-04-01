@@ -13,13 +13,13 @@ export const Auth = ( state={
 }, action) => {
     switch ( action.type ) {
         case ActionTypes.LOGIN_REQUEST:
-            return { ...state, isLoading: true, isAuthenticated: false, user: action.usercreds }
+            return { ...state, isLoading: true, isAuthenticated: false, user: null }
             
         case ActionTypes.LOGIN_SUCCESS:
             return { ...state, isLoading: false, isAuthenticated: true, token: action.jwttoken, errMessage: '' }
             
         case ActionTypes.LOGIN_FAILURE:
-            return { ...state, isLoading: false, isAuthenticated: false, user: action.message }
+            return { ...state, isLoading: false, isAuthenticated: false, errMessage: action.payload }
             
         case ActionTypes.LOGOUT_REQUEST:
             return { ...state, isLoading: true, isAuthenticated: true }
