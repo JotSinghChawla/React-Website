@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, Label, Row, Col } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form'
 
-const minLength = (val) => val && (val.length >= 2)
-const maxLength = (val) => !(val) || (val.length <= 15)
+// const minLength = (val) => val && (val.length >= 2)
+// const maxLength = (val) => !val || (val.length <= 15)
 
 export class CommentFormComponent extends Component {
     constructor(props){
@@ -22,8 +22,7 @@ export class CommentFormComponent extends Component {
 
     handleSubmit(values) {
         this.showModal()
-        console.log(this.props.dishId)
-        this.props.postComment( this.props.dishId, values.rating, values.name, values.comment )
+        this.props.postComment( this.props.dishId, values.ratings, values.comment )
         // event.preventDefault();
     }
 
@@ -43,7 +42,7 @@ export class CommentFormComponent extends Component {
                             <Row className='form-group'>
                                 <Label md={12} htmlFor='ratings'> Ratings: </Label> 
                                 <Col md={12}>
-                                    <Control.select model='.ratings' id='ratings'
+                                    <Control.select model='.ratings' id='ratings' defaultValue='5'
                                         className='form-control'>
                                         <option value='1'>1</option>
                                         <option value='2'>2</option>
@@ -54,7 +53,7 @@ export class CommentFormComponent extends Component {
                                     
                                 </Col>
                             </Row>
-                            <Row className='form-group'>
+                            {/* <Row className='form-group'>
                                 <Label md={12} htmlFor='name'> Your Name: </Label> 
                                 <Col md={12}>
                                     <Control.text model='.name' id='name' name='name'
@@ -70,7 +69,7 @@ export class CommentFormComponent extends Component {
                                             maxLength: 'Must be 15 characters or less'
                                         }} />
                                 </Col>
-                            </Row>
+                            </Row> */}
                             <Row className='form-group'>
                                 <Label md={12} htmlFor='comment'> Comment: </Label> 
                                 <Col md={12}>

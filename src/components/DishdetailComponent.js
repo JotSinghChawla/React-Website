@@ -6,7 +6,7 @@ import Loading  from './LoadingComponent'
 import { baseURL } from '../shared/baseURL'
 import { FadeTransform, Fade, Stagger } from 'react-animation-components'
 
-const DishdetailComponent = ({ sentDish, comments, postComment, isLoading, errMess, favorites, postFavorites }) => {
+const DishdetailComponent = ({ sentDish, postComment, isLoading, errMess, favorites, postFavorites }) => {
 
     // This is a functional component
     const RenderDish = ({ dish, fav, postFav }) => {                  
@@ -58,8 +58,6 @@ const DishdetailComponent = ({ sentDish, comments, postComment, isLoading, errMe
     }
 
     const inputDish = sentDish.length !== 0 ? sentDish[0] : null ;  
-      
-    // const inputComments = comments.length !== 0 ? comments : null;
     const inputComments = inputDish.comments;
 
     if(isLoading) {

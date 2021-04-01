@@ -16,7 +16,6 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group'
 const mapStateToProps = state => {
     return {
       dishes: state.dishes,
-      comments: state.comments,
       promotions: state.promotions,
       leaders: state.leaders,
       favorites: state.favorites,
@@ -25,11 +24,10 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  postComment: ( dishId, rating, author, comment ) => {dispatch( postComment( dishId, rating, author, comment ) ) },
+  postComment: ( dishId, rating, comment ) => {dispatch( postComment( dishId, rating, comment ) ) },
   postFeedback: ( firstname, lastname, email, telnum, agree, contactType ,message ) => { dispatch( postFeedback( firstname, lastname, email, telnum, agree, contactType ,message ) ) },
   fetchDishes: () => { dispatch(fetchDishes() ) } ,
   resetFeedbackForm: () => { dispatch( actions.reset('feedback') ) } ,
-  fetchComments: () => { dispatch( fetchComments() ) } ,
   fetchPromos: () => { dispatch( fetchPromos() ) } ,
   fetchLeaders: () => { dispatch( fetchLeaders() ) } ,
   fetchFavorites: () => { dispatch( fetchFavorites() ) } ,
@@ -43,7 +41,6 @@ class Main extends Component {
   
   componentDidMount() {
     this.props.fetchDishes()      // this function is called
-    // this.props.fetchComments() 
     this.props.fetchPromos()  
     this.props.fetchLeaders()
     this.props.fetchFavorites()
@@ -71,18 +68,14 @@ class Main extends Component {
             <DishdetailComponent sentDish={ this.props.dishes.dishes.filter( check => check._id === (match.params.dishId) )}
               isLoading={ this.props.dishes.isLoading }
               errMess={this.props.dishes.errorMessage } 
-              // commentsErrMess={this.props.comments.errorMessage } 
-              // comments={this.props.comments.comments.filter( check => check.dishId === (match.params.dishId) )}
               postComment={ this.props.postComment } 
-              favorites={ this.props.favorites.favorites[0].dishes.filter((dish) => dish._id === match.params.dishId)}
+              favorites={ this.props.favorites.favorites.dishes.filter((dish) => dish._id === match.params.dishId)}
               postFavorites={this.props.postFavorites}
             />
           :
             <DishdetailComponent sentDish={ this.props.dishes.dishes.filter( check => check._id === (match.params.dishId) )}
               isLoading={ this.props.dishes.isLoading } 
               errMess={this.props.dishes.errorMessage } 
-              commentsErrMess={this.props.comments.errorMessage } 
-              comments={this.props.comments.comments.filter( check => check.dishId === (match.params.dishId) )}
               postComment={ this.props.postComment } 
               favorites={ false } 
               postFavorites={this.props.postFavorites} 
