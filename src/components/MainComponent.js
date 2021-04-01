@@ -40,14 +40,10 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 class Main extends Component {
-
-    // onDishSelect(dishId) {
-    //     this.props.selectedDish === dishId ? this.setState({ selectedDish: null }) : this.setState({ selectedDish: dishId }) 
-    // }
   
   componentDidMount() {
     this.props.fetchDishes()      // this function is called
-    this.props.fetchComments() 
+    // this.props.fetchComments() 
     this.props.fetchPromos()  
     this.props.fetchLeaders()
     this.props.fetchFavorites()
@@ -72,21 +68,21 @@ class Main extends Component {
     const DishWithId = ({ match }) => {
       return (
          this.props.auth.isAuthenticated  ? 
-            <DishdetailComponent sentDish={ this.props.dishes.dishes.filter( check => check.id === parseInt(match.params.dishId) )}
+            <DishdetailComponent sentDish={ this.props.dishes.dishes.filter( check => check._id === (match.params.dishId) )}
               isLoading={ this.props.dishes.isLoading }
               errMess={this.props.dishes.errorMessage } 
-              commentsErrMess={this.props.comments.errorMessage } 
-              comments={this.props.comments.comments.filter( check => check.dishId === parseInt(match.params.dishId) )}
+              // commentsErrMess={this.props.comments.errorMessage } 
+              // comments={this.props.comments.comments.filter( check => check.dishId === (match.params.dishId) )}
               postComment={ this.props.postComment } 
-              favorites={ this.props.favorites.favorites.dishes.some((dish) => dish._id === match.params.dishId)}
-              postFavorites={this.props.postFavorite}
+              favorites={ this.props.favorites.favorites[0].dishes.filter((dish) => dish._id === match.params.dishId)}
+              postFavorites={this.props.postFavorites}
             />
           :
-            <DishdetailComponent sentDish={ this.props.dishes.dishes.filter( check => check.id === parseInt(match.params.dishId) )}
-              isLoading={ this.props.dishes.isLoading }
+            <DishdetailComponent sentDish={ this.props.dishes.dishes.filter( check => check._id === (match.params.dishId) )}
+              isLoading={ this.props.dishes.isLoading } 
               errMess={this.props.dishes.errorMessage } 
               commentsErrMess={this.props.comments.errorMessage } 
-              comments={this.props.comments.comments.filter( check => check.dishId === parseInt(match.params.dishId) )}
+              comments={this.props.comments.comments.filter( check => check.dishId === (match.params.dishId) )}
               postComment={ this.props.postComment } 
               favorites={ false } 
               postFavorites={this.props.postFavorites} 
@@ -124,7 +120,7 @@ class Main extends Component {
               <Route path='/home' component={ HomePage } />       
               <Route exact path='/aboutus' component={ () => <About leaders={this.props.leaders.leaders} /> } />
               <Route exact path='/menu' component={ () => <Menu sentDishes={this.props.dishes} /> } />
-              <Route path='/menu/:dishId' component={ DishWithId } />
+              <Route exact path='/menu/:dishId' component={ DishWithId } />
               <Route exact path='/contactus' component={ () => <Contact postFeedback={this.props.postFeedback} resetFeedbackForm={this.props.resetFeedbackForm} /> } />
               <PrivateRoute exact path='/favorites' component={ () => <Favorites fav={this.props.favorites} deleteFav={this.props.deleteFavorites} /> } />
               <Redirect to='/home' />
