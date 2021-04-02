@@ -9,7 +9,7 @@ import Contact from './ContactComponent'
 import Favorites from './FavoriteComponent'
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { postComment, fetchComments, fetchDishes, fetchPromos, fetchLeaders, postFeedback, fetchFavorites, postFavorites, deleteFavorites, loginUser, logoutUser } from '../redux/ActionCreators'
+import { postComment, fetchComments, fetchDishes, fetchPromos, fetchLeaders, postFeedback, fetchFavorites, postFavorites, deleteFavorites, loginUser, logoutUser, checkUser } from '../redux/ActionCreators'
 import { actions } from 'react-redux-form'              // For Reseting the Feedback Form 
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
@@ -34,16 +34,18 @@ const mapDispatchToProps = (dispatch) => ({
   postFavorites: dishId => { dispatch( postFavorites(dishId) ) } ,
   deleteFavorites: dishId => dispatch(deleteFavorites(dishId) ),
   loginUser: creds => dispatch( loginUser(creds) ),
-  logoutUser: () => dispatch( logoutUser() )
+  logoutUser: () => dispatch( logoutUser() ),
+  checkUser: () => dispatch( checkUser() )
 })
 
 class Main extends Component {
   
   componentDidMount() {
+    this.props.checkUser()
+    this.props.fetchFavorites()
     this.props.fetchDishes()      // this function is called
     this.props.fetchPromos()  
     this.props.fetchLeaders()
-    this.props.fetchFavorites()
   }
 
   render() {
