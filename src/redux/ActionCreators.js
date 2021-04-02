@@ -25,7 +25,6 @@ export const postComment = ( dishId, rating, comment ) => (dispatch) => {
         credentials: 'same-origin'
     })
     .then( response => {
-        console.log( response );
         if( response.ok ) {
             return response
         }
@@ -40,7 +39,7 @@ export const postComment = ( dishId, rating, comment ) => (dispatch) => {
         throw error
     })
     .then( response => response.json() )
-    .then( response => dispatch( addComment( response ) ) )
+    .then( () => dispatch( fetchDishes() ) )
     .catch( error => { 
         console.log( 'POST COMMENTS: ', error.message )
         alert( 'Your comment is not posted\nError: ',error.message )
@@ -410,4 +409,56 @@ export const logoutUser = () => (dispatch) => {
 
     dispatch( favoritesFailed("Error 401: Unauthorized") );
     dispatch( receiveLogout() );
+};
+
+export const checkingUser = () => ({
+    type: ActionTypes.CHECKING_USER
+});
+
+export const userChecked = user => ({
+    type: ActionTypes.USER_CHECKED,
+    payload: user.username
+});
+
+export const checkUser = () => (dispatch) => {
+    dispatch( checkingUser() );
+    
+    const bearer = 'Bearer ' + localStorage.getItem('jwttoken');
+
+    return fetch( baseURL + 'users/checkjwttoken', {
+        method: "GET",
+        headers: {
+            'Authorization': bearer
+        },
+        credentials: "same-origin"                  
+    })
+    .then( response => {
+        if( response.ok )
+            return response;
+        else {
+            var error = new Error('Error ' + response.status + ': ' + response.statusText );
+            error.response = response;
+            throw error;
+        }
+    }, error => { throw error; })
+
+    .then( response => response.json() )
+    .then( response => {
+        if( response.success ) {
+
+            localStorage.setItem('usercreds', JSON.stringify( response.user.username ));         // check session storage
+            
+            // Dispatch the success action
+            console.log( response.user )
+            dispatch( userChecked( response.user.username ) );
+            // dispatch( fetchFavorites() );
+            
+        }   
+        else {
+            var error = new Error('Error ' + response.status);
+            error.response = response;
+            throw error;
+        }
+    })
+    .catch( error => dispatch( loginError( error.message ) ) );
 };
