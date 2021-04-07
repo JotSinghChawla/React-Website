@@ -102,9 +102,9 @@ const DishdetailComponent = ({ sentDish, postComment, isLoading, errMess, favori
                     <RenderDish dish={ inputDish } fav={ favorites } postFav={ postFavorites } />
                 </div>
                 <div className="col-12 col-md-5 m-2" >
-                    {/* <ul className='list-unstyled'> */}
+                    <ul className='list-unstyled'>
                         <ShowComments comments={ inputComments } postComment={ postComment } dishId={ inputDish._id } />
-                    {/* </ul> */}
+                    </ul>
                 </div>
             </div>
         </div> 

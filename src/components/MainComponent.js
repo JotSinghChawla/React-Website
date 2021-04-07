@@ -90,10 +90,13 @@ class Main extends Component {
         this.props.auth.isAuthenticated ? 
           <Component {...props} />
           : 
-          <Redirect to={{
-            pathname: '/home',
-            state: { from: props.location }           // state is used for Referring
-          }} />
+          <>
+            <Redirect to={{
+              pathname: '/home',
+              state: { from: props.location }           // state is used for Referring
+            }} />
+            { console.log('Please Login first to view your Favorites Dishes!') }
+          </>
       )} />
     )
 
